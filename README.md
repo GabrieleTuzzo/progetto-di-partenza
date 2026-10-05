@@ -149,3 +149,11 @@ un hook `PreToolUse` intercetta `Edit`, `Write` e `NotebookEdit` e termina con c
   `PreToolUse`.
 - La skill AML e' stata limitata agli strumenti di lettura e usa la skill condivisa
   del formato, cosi' non puo' modificare il codice e restituisce findings uniformi.
+
+## Static Analysis cards
+
+Il reviewer ereditato code-reviewer.md è stato sostituito dai tre reviewer specializzati in .claude/agents/.
+
+Modificato l'hook `PostToolUse` sostituito da `PreToolUse` che blocca preventivamente l'utilizzo dei tool di modifica o lancio di comandi
+
+Rimossa dalla skill AML la possibilità di utilizzare i tool `edit, write, bash`
