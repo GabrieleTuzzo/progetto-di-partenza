@@ -47,7 +47,7 @@ Il secondo utente è `bob` / `bob123`, e i due conti di partenza hanno 1000,00 e
 ### Gli endpoint, tutti quelli che ci sono
 
 | Metodo e percorso | Cosa fa | Token |
-|---|---|:-:|
+| --- | --- | :-: |
 | `POST /api/auth/login` | restituisce un JWT dato username e password | no |
 | `POST /api/movements/transfer` | trasferisce fra due conti e registra i movimenti | sì |
 | `GET /api/movements?accountId=1` | i movimenti di un conto, dal più recente | sì |
@@ -107,3 +107,45 @@ Non è un sistema production-grade, e non pretende di esserlo: non ha circuit br
 Soprattutto: **non è un'architettura modello.** È un backend scritto come lo scrive una squadra sotto scadenza, con le scorciatoie che una squadra sotto scadenza prende. È esattamente per questo che serve: i tuoi reviewer avranno qualcosa di vero da trovare, e quello che troveranno non te l'ha suggerito nessuno.
 
 Per la stessa ragione, se lo riusi fuori dal bootcamp trattalo come codice da recensire, non come codice da mostrare.
+
+## Claude Code Assets
+
+Gli asset di review si trovano in `.claude/`:
+
+`.claude/agents/movement-reviewer.md` | Atomicita', saldi e persistenza dei trasferimenti
+`.claude/agents/aml-compliance-reviewer.md` | Soglie, PEP, watchlist, audit e operazioni sospette
+`.claude/agents/api-contract-reviewer.md` | Route, DTO, validazione, status e comportamento visibile ai client
+`.claude/skills/review-findings/SKILL.md` | Schema JSON uniforme dei rilievi
+`.claude/skills/compliance-aml-check/SKILL.md` | Regole AML applicate dal reviewer di compliance
+`.claude/settings.json` | Hook preventivo sulle operazioni di modifica
+
+### Regola di instradamento
+
+Il reviewer si sceglie in base alla responsabilita' primaria della modifica, non solo
+al nome del file: la logica interna di saldi e trasferimenti compete al reviewer dei
+movimenti; una regola AML o normativa al reviewer AML; il comportamento osservabile
+dal client al reviewer API.
+
+Nel caso ambiguo di `MovementController.java`, route, request, response, validazione
+e codici HTTP competono al reviewer API. Se la modifica implementa una soglia o un
+controllo AML, prevale il reviewer AML; la logica transazionale resta al reviewer
+dei movimenti. La richiesta deve chiarire quale comportamento e' in revisione.
+
+Esempi: "Rivedi l'atomicita' del trasferimento in `MovementService`" (movimenti);
+"Verifica la soglia AML di segnalazione" (AML); "Rivedi la validazione e gli status
+HTTP dell'endpoint" (API).
+
+### Sola lettura e verifica
+
+I tre reviewer dichiarano solo `Read`, `Grep` e `Glob`. In `.claude/settings.json`,
+un hook `PreToolUse` intercetta `Edit`, `Write` e `NotebookEdit` e termina con codice
+2 per rifiutare l'azione; il matcher non include gli strumenti di lettura.
+
+### Modifiche all'impianto ereditato
+
+- Il reviewer generico e' stato sostituito da tre reviewer specializzati, perche'
+  combinava perimetri diversi e disponeva di strumenti troppo ampi.
+- L'hook `PostToolUse` e lo script di logging sono stati sostituiti da un blocco
+  `PreToolUse`.
+- La skill AML e' stata limitata agli strumenti di lettura e usa la skill condivisa
+  del formato, cosi' non puo' modificare il codice e restituisce findings uniformi.

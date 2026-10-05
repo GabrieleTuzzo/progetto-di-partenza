@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "_comment": "Blocca gli strumenti di modifica prima che possano cambiare file durante la review.",
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import sys; sys.exit(2)\""
+          }
+        ]
+      }
+    ]
+  }
+}
