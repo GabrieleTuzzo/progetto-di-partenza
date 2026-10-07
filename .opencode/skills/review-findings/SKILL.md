@@ -1,9 +1,7 @@
 ---
 name: review-findings
 description: Definisce il formato comune dei rilievi per le review in sola lettura di LipariBank.
-allowed-tools: [Read, Grep, Glob]
 ---
-
 # Formato comune dei rilievi
 
 Restituisci esclusivamente un array JSON valido, senza testo introduttivo o blocchi

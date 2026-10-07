@@ -13,3 +13,5 @@ dei movimenti. La richiesta deve chiarire quale comportamento e' in revisione.
 Esempi: "Rivedi l'atomicita' del trasferimento in `MovementService`" (movimenti);
 "Verifica la soglia AML di segnalazione" (AML); "Rivedi la validazione e gli status
 HTTP dell'endpoint" (API).
+
+Se un diff contiene modifiche indipendenti appartenenti a più perimetri, richiedi review separate e mirate sullo stesso diff, una per reviewer. Ogni singola richiesta deve avere un solo ambito; non chiedere a un reviewer di coprire anche quello degli altri.

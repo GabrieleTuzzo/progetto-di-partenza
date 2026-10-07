@@ -2,11 +2,14 @@
 target/
 
 # Configurazione locale dei CLI: contiene credenziali, non si committa
-.claude/settings.local.json
 .opencode/opencode.local.json
 
 # Ambiente e segreti
 .env
+node_modules/
+.venv
+__pycache__/
+*.py[cod]
 
 # Metadati di editor e di sistema
 .idea/

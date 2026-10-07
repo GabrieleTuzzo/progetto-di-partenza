@@ -1,9 +1,7 @@
 ---
 name: compliance-aml-check
 description: Verifica compliance AML di un cambiamento di codice del LipariBank
-allowed-tools: [Read, Grep, Glob]
 ---
-
 # Compliance AML Check — LipariBank
 
 Verifica i cinque controlli antiriciclaggio su ogni cambiamento in revisione:

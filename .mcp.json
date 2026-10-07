@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "finbank-mcp": {
+      "command": ".venv/Scripts/python.exe",
+      "args": ["./finbank-mcp/server.py"],
+      "env": {
+        "FINBANK_BASE_URL": "http://localhost:8080"
+      }
+    }
+  }
+}
